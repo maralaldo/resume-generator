@@ -1,30 +1,48 @@
-{% load static %}
 <!DOCTYPE html>
 <html>
 <head>
     <meta charset="UTF-8">
     <title>{{ data.full_name }} – Resume</title>
-    <link rel="stylesheet" href="{% static 'css/resume_style.css' %}">
 </head>
 <body>
-    <div class="resume">
-        <h1>{{ data.full_name }}</h1>
-        <p><strong>Email:</strong> {{ data.email }}</p>
-        <p><strong>Phone:</strong> {{ data.phone }}</p>
+    <h1>{{ data.full_name }}</h1>
+    <h2>{{ data.profession }}</h2>
 
-        <h2>Education</h2>
-        <p>{{ data.education|linebreaks }}</p>
+    {% if data.photo %}
+      <div>
+        <img src="{{ data.photo }}" alt="Photo" width="150" />
+      </div>
+    {% endif %}
 
-        <h2>Experience</h2>
-        <p>{{ data.experience|linebreaks }}</p>
+    <p><strong>Email:</strong> {{ data.email }}</p>
+    <p><strong>Phone:</strong> {{ data.phone }}</p>
 
-        <h2>Skills</h2>
-        <p>{{ data.skills|linebreaks }}</p>
+    {% if data.github %}
+      <p><strong>GitHub:</strong> <a href="{{ data.github }}" target="_blank">{{ data.github }}</a></p>
+    {% endif %}
 
-        {% if data.additional %}
-            <h2>Additional Info</h2>
-            <p>{{ data.additional|linebreaks }}</p>
-        {% endif %}
-    </div>
+    {% if data.linkedin %}
+      <p><strong>LinkedIn:</strong> <a href="{{ data.linkedin }}" target="_blank">{{ data.linkedin }}</a></p>
+    {% endif %}
+
+    <h3>Summary</h3>
+    <p>{{ data.summary }}</p>
+
+    <h3>Education</h3>
+    <p>{{ data.education }}</p>
+
+    <h3>Experience</h3>
+    <p>{{ data.experience }}</p>
+
+    <h3>Skills</h3>
+    <p>{{ data.skills }}</p>
+
+    {% if data.additional %}
+      <h3>Additional Info</h3>
+      <p>{{ data.additional }}</p>
+    {% endif %}
+
+    <!-- Back Button -->
+    <a href="/" style="margin-top: 20px; display: inline-block;">← Back</a>
 </body>
 </html>

@@ -8,11 +8,15 @@ from .forms import ResumeForm
 
 def resume_form_view(request):
     if request.method == 'POST':
-        form = ResumeForm(request.POST)
+        form = ResumeForm(request.POST, request.FILES) 
         if form.is_valid():
             action = request.POST.get('action')
             data = form.cleaned_data
-            context = {'data': data}
+            photo = request.FILES.get('photo')  
+            context = {
+                'data': data,
+                'photo': photo  
+            }
 
             if action == 'preview':
                 return render(request, 'resume_app/resume.html', context)
@@ -26,8 +30,8 @@ def resume_form_view(request):
                     response = HttpResponse(output.read(), content_type='application/pdf')
                     response['Content-Disposition'] = 'filename="resume.pdf"'
                     return response
-
     else:
         form = ResumeForm()
 
     return render(request, 'resume_app/form.html', {'form': form})
+
