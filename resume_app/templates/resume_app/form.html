@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Resume Generator</title>
+</head>
+<body>
+    <h1>Create Your Resume</h1>
+    <form method="post" action="{% url 'resume-form' %}">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" name="action" value="preview">Preview Resume</button>
+        <button type="submit" name="action" value="pdf">Download PDF</button>
+    </form>
+</body>
+</html>

@@ -1,0 +1,30 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>{{ data.full_name }} – Resume</title>
+    <link rel="stylesheet" href="{% static 'css/resume_style.css' %}">
+</head>
+<body>
+    <div class="resume">
+        <h1>{{ data.full_name }}</h1>
+        <p><strong>Email:</strong> {{ data.email }}</p>
+        <p><strong>Phone:</strong> {{ data.phone }}</p>
+
+        <h2>Education</h2>
+        <p>{{ data.education|linebreaks }}</p>
+
+        <h2>Experience</h2>
+        <p>{{ data.experience|linebreaks }}</p>
+
+        <h2>Skills</h2>
+        <p>{{ data.skills|linebreaks }}</p>
+
+        {% if data.additional %}
+            <h2>Additional Info</h2>
+            <p>{{ data.additional|linebreaks }}</p>
+        {% endif %}
+    </div>
+</body>
+</html>
