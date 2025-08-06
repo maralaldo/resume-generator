@@ -1,37 +1,43 @@
+import os
+import glob
+from django.conf import settings
 from django.shortcuts import render
-from django.http import HttpResponse
-from django.template.loader import get_template
-from weasyprint import HTML
-import tempfile
-
+from django.core.files.storage import FileSystemStorage
 from .forms import ResumeForm
+
 
 def resume_form_view(request):
     if request.method == 'POST':
-        form = ResumeForm(request.POST, request.FILES) 
+        form = ResumeForm(request.POST, request.FILES)
+        action = request.POST.get('action')
+
         if form.is_valid():
-            action = request.POST.get('action')
             data = form.cleaned_data
-            photo = request.FILES.get('photo')  
+
+            # Обработка фото
+            photo = request.FILES.get('photo')
+            photo_url = None
+            if photo:
+                temp_dir = os.path.join(settings.MEDIA_ROOT, 'temp')
+                os.makedirs(temp_dir, exist_ok=True)
+                for f in glob.glob(os.path.join(temp_dir, '*')):
+                    os.remove(f)
+
+                fs = FileSystemStorage(location=temp_dir)
+                filename = fs.save(photo.name, photo)
+                photo_url = fs.url(f'temp/{filename}')
+
             context = {
                 'data': data,
-                'photo': photo  
+                'form': form,
+                'photo': {'url': photo_url} if photo_url else None
             }
 
             if action == 'preview':
                 return render(request, 'resume_app/resume.html', context)
-
-            elif action == 'pdf':
-                template = get_template('resume_app/resume.html')
-                html = template.render(context)
-                with tempfile.NamedTemporaryFile(delete=True) as output:
-                    HTML(string=html).write_pdf(output.name)
-                    output.seek(0)
-                    response = HttpResponse(output.read(), content_type='application/pdf')
-                    response['Content-Disposition'] = 'filename="resume.pdf"'
-                    return response
+            elif action == 'back':
+                return render(request, 'resume_app/form.html', context)
     else:
         form = ResumeForm()
 
     return render(request, 'resume_app/form.html', {'form': form})
-
