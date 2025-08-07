@@ -1,8 +1,8 @@
 <h1>{{ data.full_name }}</h1>
 <h2>{{ data.profession }}</h2>
 
-{% if photo %}
-  <img src="{{ photo.url }}" alt="Photo" width="150" />
+{% if photo_base64 %}
+  <img src="data:image/jpeg;base64,{{ photo_base64 }}" alt="Photo" width="150" />
 {% endif %}
 
 {% if data.email %}<p><strong>Email:</strong> {{ data.email }}</p>{% endif %}

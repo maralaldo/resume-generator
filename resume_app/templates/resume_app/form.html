@@ -1,16 +1,20 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="UTF-8">
-    <title>Resume Generator</title>
+    <title>Resume Form</title>
 </head>
 <body>
-    <h1>Create Your Resume</h1>
-    <form method="post" enctype="multipart/form-data" action="{% url 'resume-form' %}">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit" name="action" value="preview">Preview Resume</button>
-        <button type="submit" name="action" value="pdf">Download PDF</button>
-    </form>
+    <h1>Resume Form</h1>
+        <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ form.as_p }}
+
+            {% if request.session.photo_content %}
+                <p>Photo uploaded: {{ request.session.photo_name }}</p>
+                <button name="action" value="delete_photo">Delete Photo</button>
+            {% endif %}
+            <button type="submit" name="action" value="preview">Preview</button>
+            <button type="submit" name="action" value="pdf">Download PDF</button>
+         </form>
 </body>
 </html>
