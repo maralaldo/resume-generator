@@ -1,11 +1,11 @@
 import base64
+import tempfile
+from io import BytesIO
 from django.shortcuts import render
 from django.http import HttpResponse
 from django.template.loader import get_template
-from weasyprint import HTML
-import tempfile
-
 from .forms import ResumeForm
+from weasyprint import HTML
 
 
 def resume_form_view(request):
@@ -15,21 +15,19 @@ def resume_form_view(request):
 
         if form.is_valid():
             data = form.cleaned_data
-            context = {'data': data}
+            request.session['form_data'] = data  # сохраняем данные формы
 
-            # Получаем фото из формы или из сессии
+            # Обработка фото
             photo = request.FILES.get('photo')
             if photo:
-                # Чтение и кодирование фото
-                photo_data = photo.read()
-                request.session['photo_content'] = base64.b64encode(photo_data).decode('utf-8')
-                request.session['photo_name'] = photo.name
-                context['photo_base64'] = request.session['photo_content']
-            elif request.session.get('photo_content'):
-                context['photo_base64'] = request.session['photo_content']
+                image_data = photo.read()
+                encoded_image = base64.b64encode(image_data).decode('utf-8')
+                request.session['photo_base64'] = encoded_image
 
-            # Сохраняем данные формы в сессии (для возврата назад)
-            request.session['form_data'] = request.POST
+            context = {
+                'data': data,
+                'photo_base64': request.session.get('photo_base64')
+            }
 
             if action == 'preview':
                 return render(request, 'resume_app/resume.html', context)
@@ -45,14 +43,27 @@ def resume_form_view(request):
                     return response
 
             elif action == 'back':
-                return render(request, 'resume_app/form.html', {'form': form})
+                # Возврат к форме с сохраненными данными
+                form_data = request.session.get('form_data')
+                form = ResumeForm(initial=form_data) if form_data else ResumeForm()
+                return render(request, 'resume_app/form.html', {
+                    'form': form,
+                    'photo_base64': request.session.get('photo_base64')
+                })
+
+        else:
+            # Если форма не валидна — просто вернуть её обратно с ошибками
+            return render(request, 'resume_app/form.html', {
+                'form': form,
+                'photo_base64': request.session.get('photo_base64')
+            })
 
     else:
-        # Если возвращаемся назад, берём данные формы и фото из сессии
+        # GET-запрос: заполнить форму ранее введенными данными
         form_data = request.session.get('form_data')
-        if form_data:
-            form = ResumeForm(form_data)
-        else:
-            form = ResumeForm()
+        form = ResumeForm(initial=form_data) if form_data else ResumeForm()
 
-    return render(request, 'resume_app/form.html', {'form': form})
+    return render(request, 'resume_app/form.html', {
+        'form': form,
+        'photo_base64': request.session.get('photo_base64')
+    })
