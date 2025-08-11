@@ -1,20 +1,14 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Resume Form</title>
+    <title>Создать резюме</title>
 </head>
 <body>
-    <h1>Resume Form</h1>
-        <form method="POST" enctype="multipart/form-data">
-            {% csrf_token %}
-            {{ form.as_p }}
-
-            {% if request.session.photo_content %}
-                <p>Photo uploaded: {{ request.session.photo_name }}</p>
-                <button name="action" value="delete_photo">Delete Photo</button>
-            {% endif %}
-            <button type="submit" name="action" value="preview">Preview</button>
-            <button type="submit" name="action" value="pdf">Download PDF</button>
-         </form>
+    <h1>Форма резюме</h1>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Предпросмотр</button>
+    </form>
 </body>
 </html>

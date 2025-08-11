@@ -1,21 +1,59 @@
-<h1>{{ data.full_name }}</h1>
-<h2>{{ data.profession }}</h2>
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Предпросмотр резюме</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: auto;
+            padding: 20px;
+            background-color: #f9f9f9;
+        }
+        h1 {
+            text-align: center;
+        }
+        p {
+            line-height: 1.5;
+        }
+        strong {
+            color: #333;
+        }
+        .buttons {
+            margin-top: 20px;
+            text-align: center;
+        }
+        .btn {
+            display: inline-block;
+            padding: 10px 15px;
+            margin: 5px;
+            background-color: #007bff;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+        .btn:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <h1>{{ form_data.full_name }}</h1>
+    <p><strong>Профессия:</strong> {{ form_data.profession }}</p>
+    <p><strong>Email:</strong> {{ form_data.email }}</p>
+    <p><strong>Телефон:</strong> {{ form_data.phone }}</p>
+    <p><strong>GitHub:</strong> {{ form_data.github }}</p>
+    <p><strong>LinkedIn:</strong> {{ form_data.linkedin }}</p>
+    <p><strong>О себе:</strong> {{ form_data.summary }}</p>
+    <p><strong>Образование:</strong> {{ form_data.education }}</p>
+    <p><strong>Опыт работы:</strong> {{ form_data.experience }}</p>
+    <p><strong>Навыки:</strong> {{ form_data.skills }}</p>
+    <p><strong>Дополнительно:</strong> {{ form_data.additional }}</p>
 
-{% if photo_base64 %}
-  <img src="data:image/jpeg;base64,{{ photo_base64 }}" alt="Photo" width="150" />
-{% endif %}
-
-{% if data.email %}<p><strong>Email:</strong> {{ data.email }}</p>{% endif %}
-{% if data.phone %}<p><strong>Phone:</strong> {{ data.phone }}</p>{% endif %}
-{% if data.github %}<p><strong>GitHub:</strong> <a href="{{ data.github }}">{{ data.github }}</a></p>{% endif %}
-{% if data.linkedin %}<p><strong>LinkedIn:</strong> <a href="{{ data.linkedin }}">{{ data.linkedin }}</a></p>{% endif %}
-{% if data.summary %}<h3>Summary</h3><p>{{ data.summary }}</p>{% endif %}
-{% if data.education %}<h3>Education</h3><p>{{ data.education }}</p>{% endif %}
-{% if data.experience %}<h3>Experience</h3><p>{{ data.experience }}</p>{% endif %}
-{% if data.skills %}<h3>Skills</h3><p>{{ data.skills }}</p>{% endif %}
-{% if data.additional %}<h3>Additional Info</h3><p>{{ data.additional }}</p>{% endif %}
-
-<form method="post">
-  {% csrf_token %}
-  <button type="submit" name="action" value="back">← Back</button>
-</form>
+    <div class="buttons">
+        <a href="{% url 'download_pdf' %}" class="btn">📄 Скачать PDF</a>
+        <a href="{% url 'resume_form_view' %}" class="btn">⬅ Назад к форме</a>
+    </div>
+</body>
+</html>

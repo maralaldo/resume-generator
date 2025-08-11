@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <style>
+        body { font-family: sans-serif; }
+        h1 { font-size: 24px; }
+        p { margin: 4px 0; }
+    </style>
+</head>
+<body>
+    <h1>{{ form_data.full_name }}</h1>
+    <p><strong>Профессия:</strong> {{ form_data.profession }}</p>
+    <p><strong>Email:</strong> {{ form_data.email }}</p>
+    <p><strong>Телефон:</strong> {{ form_data.phone }}</p>
+    <p><strong>GitHub:</strong> {{ form_data.github }}</p>
+    <p><strong>LinkedIn:</strong> {{ form_data.linkedin }}</p>
+    <p><strong>О себе:</strong> {{ form_data.summary }}</p>
+    <p><strong>Образование:</strong> {{ form_data.education }}</p>
+    <p><strong>Опыт работы:</strong> {{ form_data.experience }}</p>
+    <p><strong>Навыки:</strong> {{ form_data.skills }}</p>
+    <p><strong>Дополнительно:</strong> {{ form_data.additional }}</p>
+</body>
+</html>

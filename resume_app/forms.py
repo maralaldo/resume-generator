@@ -12,4 +12,3 @@ class ResumeForm(forms.Form):
     experience = forms.CharField(widget=forms.Textarea, required=False)
     skills = forms.CharField(widget=forms.Textarea, required=False)
     additional = forms.CharField(widget=forms.Textarea, required=False)
-    photo = forms.ImageField(required=False)
