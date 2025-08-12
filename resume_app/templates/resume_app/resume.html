@@ -15,6 +15,9 @@
         strong {
             color: #34495e;
         }
+        p {
+            white-space: pre-line; /* Сохраняет переносы строк */
+        }
         a {
             display: inline-block;
             margin-top: 15px;
@@ -27,6 +30,11 @@
         }
         a:hover {
             background: #2980b9;
+        }
+        @media print {
+            .no-print {
+                display: none; /* Не показывать кнопки при печати/в PDF */
+            }
         }
     </style>
 </head>
@@ -76,8 +84,8 @@
         <p><strong>Дополнительно:</strong> {{ form_data.additional }}</p>
     {% endif %}
 
-    <a href="{% url 'download_pdf' %}">Скачать PDF</a>
-    <a href="{% url 'resume_form_view' %}">Назад к форме</a>
+    <a href="{% url 'download_pdf' %}" class="no-print">Скачать PDF</a>
+    <a href="{% url 'resume_form_view' %}" class="no-print">Назад к форме</a>
 
 </body>
 </html>
