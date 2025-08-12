@@ -1,59 +1,83 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html>
 <head>
+    <title>Резюме</title>
     <meta charset="UTF-8">
-    <title>Предпросмотр резюме</title>
     <style>
         body {
             font-family: Arial, sans-serif;
-            max-width: 800px;
-            margin: auto;
-            padding: 20px;
-            background-color: #f9f9f9;
+            line-height: 1.6;
+            margin: 20px;
         }
         h1 {
-            text-align: center;
-        }
-        p {
-            line-height: 1.5;
+            color: #2c3e50;
         }
         strong {
-            color: #333;
+            color: #34495e;
         }
-        .buttons {
-            margin-top: 20px;
-            text-align: center;
-        }
-        .btn {
+        a {
             display: inline-block;
-            padding: 10px 15px;
-            margin: 5px;
-            background-color: #007bff;
-            color: white;
+            margin-top: 15px;
+            margin-right: 10px;
             text-decoration: none;
-            border-radius: 5px;
+            background: #3498db;
+            color: white;
+            padding: 8px 12px;
+            border-radius: 4px;
         }
-        .btn:hover {
-            background-color: #0056b3;
+        a:hover {
+            background: #2980b9;
         }
     </style>
 </head>
 <body>
-    <h1>{{ form_data.full_name }}</h1>
-    <p><strong>Профессия:</strong> {{ form_data.profession }}</p>
-    <p><strong>Email:</strong> {{ form_data.email }}</p>
-    <p><strong>Телефон:</strong> {{ form_data.phone }}</p>
-    <p><strong>GitHub:</strong> {{ form_data.github }}</p>
-    <p><strong>LinkedIn:</strong> {{ form_data.linkedin }}</p>
-    <p><strong>О себе:</strong> {{ form_data.summary }}</p>
-    <p><strong>Образование:</strong> {{ form_data.education }}</p>
-    <p><strong>Опыт работы:</strong> {{ form_data.experience }}</p>
-    <p><strong>Навыки:</strong> {{ form_data.skills }}</p>
-    <p><strong>Дополнительно:</strong> {{ form_data.additional }}</p>
 
-    <div class="buttons">
-        <a href="{% url 'download_pdf' %}" class="btn">📄 Скачать PDF</a>
-        <a href="{% url 'resume_form_view' %}" class="btn">⬅ Назад к форме</a>
-    </div>
+    {% if form_data.full_name %}
+        <h1>{{ form_data.full_name }}</h1>
+    {% endif %}
+
+    {% if form_data.profession %}
+        <p><strong>Профессия:</strong> {{ form_data.profession }}</p>
+    {% endif %}
+
+    {% if form_data.email %}
+        <p><strong>Email:</strong> {{ form_data.email }}</p>
+    {% endif %}
+
+    {% if form_data.phone %}
+        <p><strong>Телефон:</strong> {{ form_data.phone }}</p>
+    {% endif %}
+
+    {% if form_data.github %}
+        <p><strong>GitHub:</strong> {{ form_data.github }}</p>
+    {% endif %}
+
+    {% if form_data.linkedin %}
+        <p><strong>LinkedIn:</strong> {{ form_data.linkedin }}</p>
+    {% endif %}
+
+    {% if form_data.summary %}
+        <p><strong>О себе:</strong> {{ form_data.summary }}</p>
+    {% endif %}
+
+    {% if form_data.education %}
+        <p><strong>Образование:</strong> {{ form_data.education }}</p>
+    {% endif %}
+
+    {% if form_data.experience %}
+        <p><strong>Опыт работы:</strong> {{ form_data.experience }}</p>
+    {% endif %}
+
+    {% if form_data.skills %}
+        <p><strong>Навыки:</strong> {{ form_data.skills }}</p>
+    {% endif %}
+
+    {% if form_data.additional %}
+        <p><strong>Дополнительно:</strong> {{ form_data.additional }}</p>
+    {% endif %}
+
+    <a href="{% url 'download_pdf' %}">Скачать PDF</a>
+    <a href="{% url 'resume_form_view' %}">Назад к форме</a>
+
 </body>
 </html>
